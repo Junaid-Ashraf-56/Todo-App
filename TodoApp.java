@@ -26,13 +26,15 @@ public class TodoApp extends JFrame {
         taskField = new JTextField();
         add(taskField, BorderLayout.NORTH);
 
-        // Buttons for adding and deleting tasks
+        // Buttons for adding, deleting, and updating tasks
         JButton addButton = new JButton("Add Task");
         JButton deleteButton = new JButton("Delete Task");
+        JButton updateButton = new JButton("Update Task");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(deleteButton);
+        buttonPanel.add(updateButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Scroll pane for the task list
@@ -51,6 +53,13 @@ public class TodoApp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteTask();
+            }
+        });
+
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTask();
             }
         });
     }
@@ -73,6 +82,22 @@ public class TodoApp extends JFrame {
             taskModel.remove(selectedIndex);
         } else {
             JOptionPane.showMessageDialog(this, "Select a task to delete!");
+        }
+    }
+
+    private void updateTask() {
+        int selectedIndex = taskList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String newTask = taskField.getText().trim();
+            if (!newTask.isEmpty()) {
+                tasks.set(selectedIndex, newTask);
+                taskModel.set(selectedIndex, newTask);
+                taskField.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Updated task cannot be empty!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a task to update!");
         }
     }
 
