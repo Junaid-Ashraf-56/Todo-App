@@ -12,22 +12,22 @@ public class TodoApp {
     private ArrayList<String> tasks;
 
     public TodoApp() {
-        // Initialize JFrame
+        // Initialize the Jframe
         frame = new JFrame("To-Do List Application");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Set application icon
+        // Setting the application icon
         ImageIcon image = new ImageIcon("logo.png");
         frame.setIconImage(image.getImage());
 
-        // Initialize task list and ArrayList to store tasks
+        // Initialize task list and ArrayList 
         tasks = new ArrayList<>();
         taskModel = new DefaultListModel<>();
         taskList = new JList<>(taskModel);
 
-        // Text field for adding tasks
+
         taskField = new JTextField();
         frame.add(taskField, BorderLayout.NORTH);
 
@@ -46,7 +46,7 @@ public class TodoApp {
         JScrollPane scrollPane = new JScrollPane(taskList);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Add Action Listeners
+
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
