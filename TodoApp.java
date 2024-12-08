@@ -4,21 +4,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class TodoApp extends JFrame {
+public class TodoApp {
+    private JFrame frame;
     private JTextField taskField;
     private DefaultListModel<String> taskModel;
     private JList<String> taskList;
     private ArrayList<String> tasks;
 
     public TodoApp() {
-        // Initialize components
-        setTitle("To-Do List Application");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        // Initialize JFrame
+        frame = new JFrame("To-Do List Application");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
 
-    ImageIcon image = new  ImageIcon("logo.png");
-    setIconImage(image.getImage());
+        // Set application icon
+        ImageIcon image = new ImageIcon("logo.png");
+        frame.setIconImage(image.getImage());
 
         // Initialize task list and ArrayList to store tasks
         tasks = new ArrayList<>();
@@ -27,22 +29,22 @@ public class TodoApp extends JFrame {
 
         // Text field for adding tasks
         taskField = new JTextField();
-        add(taskField, BorderLayout.NORTH);
+        frame.add(taskField, BorderLayout.NORTH);
 
         // Buttons for adding, deleting, and updating tasks
         JButton addButton = new JButton("Add Task");
         JButton deleteButton = new JButton("Delete Task");
         JButton updateButton = new JButton("Update Task");
-       
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(updateButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
         // Scroll pane for the task list
         JScrollPane scrollPane = new JScrollPane(taskList);
-        add(scrollPane, BorderLayout.CENTER);
+        frame.add(scrollPane, BorderLayout.CENTER);
 
         // Add Action Listeners
         addButton.addActionListener(new ActionListener() {
@@ -65,6 +67,9 @@ public class TodoApp extends JFrame {
                 updateTask();
             }
         });
+
+        // Make the frame visible
+        frame.setVisible(true);
     }
 
     private void addTask() {
@@ -74,7 +79,7 @@ public class TodoApp extends JFrame {
             taskModel.addElement(task);
             taskField.setText("");
         } else {
-            JOptionPane.showMessageDialog(this, "Task cannot be empty!");
+            JOptionPane.showMessageDialog(frame, "Task cannot be empty!");
         }
     }
 
@@ -84,7 +89,7 @@ public class TodoApp extends JFrame {
             tasks.remove(selectedIndex);
             taskModel.remove(selectedIndex);
         } else {
-            JOptionPane.showMessageDialog(this, "Select a task to delete!");
+            JOptionPane.showMessageDialog(frame, "Select a task to delete!");
         }
     }
 
@@ -97,10 +102,10 @@ public class TodoApp extends JFrame {
                 taskModel.set(selectedIndex, newTask);
                 taskField.setText("");
             } else {
-                JOptionPane.showMessageDialog(this, "Updated task cannot be empty!");
+                JOptionPane.showMessageDialog(frame, "Updated task cannot be empty!");
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Select a task to update!");
+            JOptionPane.showMessageDialog(frame, "Select a task to update!");
         }
     }
 
@@ -108,7 +113,7 @@ public class TodoApp extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new TodoApp().setVisible(true);
+                new TodoApp();
             }
         });
     }
