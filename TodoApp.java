@@ -17,6 +17,9 @@ public class TodoApp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+    ImageIcon image = new  ImageIcon("logo.png");
+    setIconImage(image.getImage());
+
         // Initialize task list and ArrayList to store tasks
         tasks = new ArrayList<>();
         taskModel = new DefaultListModel<>();
@@ -30,7 +33,7 @@ public class TodoApp extends JFrame {
         JButton addButton = new JButton("Add Task");
         JButton deleteButton = new JButton("Delete Task");
         JButton updateButton = new JButton("Update Task");
-
+       
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(deleteButton);
