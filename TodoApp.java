@@ -5,11 +5,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class TodoApp {
-    private JFrame frame;
-    private JTextField taskField;
-    private DefaultListModel<String> taskModel;
-    private JList<String> taskList;
-    private ArrayList<String> tasks;
+    private final JFrame frame;
+    private final JTextField taskField;
+    private final DefaultListModel<String> taskModel;
+    private final JList<String> taskList;
+    public final ArrayList<String> tasks;
 
     public TodoApp() {
         // Initialize the Jframe
