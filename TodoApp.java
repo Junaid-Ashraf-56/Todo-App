@@ -47,7 +47,7 @@ public class TodoApp {
         frame.add(scrollPane, BorderLayout.CENTER);
 
 
-        addButton.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener()  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addTask();
