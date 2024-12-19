@@ -47,6 +47,15 @@ public class TodoApp {
         frame.add(new JScrollPane(taskList), BorderLayout.CENTER);
 
         // Buttons Panel
+        JPanel buttonPanel = getJPanel();
+
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Display the frame
+        frame.setVisible(true);
+    }
+
+    private JPanel getJPanel() {
         JPanel buttonPanel = new JPanel();
 
         JButton addButton = new JButton("Add Task");
@@ -64,11 +73,7 @@ public class TodoApp {
         JButton viewTasksButton = new JButton("View Tasks");
         viewTasksButton.addActionListener(e -> showTasksPanel());
         buttonPanel.add(viewTasksButton);
-
-        frame.add(buttonPanel, BorderLayout.SOUTH);
-
-        // Display the frame
-        frame.setVisible(true);
+        return buttonPanel;
     }
 
     private void addTask() {
@@ -148,6 +153,17 @@ public class TodoApp {
         }
 
         // Task selection panel with Modify and Delete buttons
+        JPanel taskSelectionPanel = getJPanel(taskList, taskModel, tasksFrame);
+
+        // Adding components to the frame
+        tasksPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
+        tasksPanel.add(taskSelectionPanel, BorderLayout.SOUTH);
+
+        tasksFrame.add(tasksPanel);
+        tasksFrame.setVisible(true);
+    }
+
+    private JPanel getJPanel(JList<String> taskList, DefaultListModel<String> taskModel, JFrame tasksFrame) {
         JPanel taskSelectionPanel = new JPanel();
         taskSelectionPanel.setLayout(new GridLayout(0, 2));
 
@@ -158,13 +174,7 @@ public class TodoApp {
         JButton deleteButton = new JButton("Delete Selected Task");
         deleteButton.addActionListener(e -> deleteSelectedTask(taskList.getSelectedIndex(), taskModel));
         taskSelectionPanel.add(deleteButton);
-
-        // Adding components to the frame
-        tasksPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
-        tasksPanel.add(taskSelectionPanel, BorderLayout.SOUTH);
-
-        tasksFrame.add(tasksPanel);
-        tasksFrame.setVisible(true);
+        return taskSelectionPanel;
     }
 
     private void modifySelectedTask(int selectedIndex, DefaultListModel<String> taskModel, JFrame tasksFrame) {
