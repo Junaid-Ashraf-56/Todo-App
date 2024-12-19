@@ -135,35 +135,20 @@ public class TodoApp {
     }
 
     private void showTasksPanel() {
-        // Create a new frame for viewing and modifying tasks
         JFrame tasksFrame = new JFrame("Tasks");
         tasksFrame.setSize(600, 400);
         tasksFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Panel for tasks
         JPanel tasksPanel = new JPanel();
         tasksPanel.setLayout(new BorderLayout());
 
-        // Task List from Database
         DefaultListModel<String> taskModel = new DefaultListModel<>();
         JList<String> taskList = new JList<>(taskModel);
-        ArrayList<String> tasks = dbHandler.getTasks();  // Fetch tasks from database
+        ArrayList<String> tasks = dbHandler.getTasks(); // Fetch tasks from database
         for (String task : tasks) {
             taskModel.addElement(task);
         }
 
-        // Task selection panel with Modify and Delete buttons
-        JPanel taskSelectionPanel = getJPanel(taskList, taskModel, tasksFrame);
-
-        // Adding components to the frame
-        tasksPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
-        tasksPanel.add(taskSelectionPanel, BorderLayout.SOUTH);
-
-        tasksFrame.add(tasksPanel);
-        tasksFrame.setVisible(true);
-    }
-
-    private JPanel getJPanel(JList<String> taskList, DefaultListModel<String> taskModel, JFrame tasksFrame) {
         JPanel taskSelectionPanel = new JPanel();
         taskSelectionPanel.setLayout(new GridLayout(0, 2));
 
@@ -174,14 +159,18 @@ public class TodoApp {
         JButton deleteButton = new JButton("Delete Selected Task");
         deleteButton.addActionListener(e -> deleteSelectedTask(taskList.getSelectedIndex(), taskModel));
         taskSelectionPanel.add(deleteButton);
-        return taskSelectionPanel;
+
+        tasksPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
+        tasksPanel.add(taskSelectionPanel, BorderLayout.SOUTH);
+
+        tasksFrame.add(tasksPanel);
+        tasksFrame.setVisible(true);
     }
 
     private void modifySelectedTask(int selectedIndex, DefaultListModel<String> taskModel, JFrame tasksFrame) {
         if (selectedIndex != -1) {
             String selectedTask = taskModel.getElementAt(selectedIndex);
 
-            // Open dialog to modify task
             JTextField modifiedTaskField = new JTextField(selectedTask);
             int dialogResult = JOptionPane.showConfirmDialog(tasksFrame, modifiedTaskField, "Modify Task", JOptionPane.OK_CANCEL_OPTION);
 
@@ -207,9 +196,5 @@ public class TodoApp {
         } else {
             JOptionPane.showMessageDialog(null, "Select a task to delete!");
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(TodoApp::new);
     }
 }
