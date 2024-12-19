@@ -147,11 +147,17 @@ public class TodoApp {
             taskModel.addElement(task);
         }
 
-        // Task selection panel
+        // Task selection panel with Modify and Delete buttons
         JPanel taskSelectionPanel = new JPanel();
-        JButton updateButton = new JButton("Modify Selected Task");
-        updateButton.addActionListener(e -> modifySelectedTask(taskList.getSelectedIndex(), taskModel, tasksFrame));
-        taskSelectionPanel.add(updateButton);
+        taskSelectionPanel.setLayout(new GridLayout(0, 2));
+
+        JButton modifyButton = new JButton("Modify Selected Task");
+        modifyButton.addActionListener(e -> modifySelectedTask(taskList.getSelectedIndex(), taskModel, tasksFrame));
+        taskSelectionPanel.add(modifyButton);
+
+        JButton deleteButton = new JButton("Delete Selected Task");
+        deleteButton.addActionListener(e -> deleteSelectedTask(taskList.getSelectedIndex(), taskModel));
+        taskSelectionPanel.add(deleteButton);
 
         // Adding components to the frame
         tasksPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
@@ -180,6 +186,16 @@ public class TodoApp {
             }
         } else {
             JOptionPane.showMessageDialog(tasksFrame, "Select a task to modify!");
+        }
+    }
+
+    private void deleteSelectedTask(int selectedIndex, DefaultListModel<String> taskModel) {
+        if (selectedIndex != -1) {
+            String task = taskModel.getElementAt(selectedIndex);
+            dbHandler.deleteTask(task); // Remove from database
+            taskModel.remove(selectedIndex); // Remove from UI
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a task to delete!");
         }
     }
 
