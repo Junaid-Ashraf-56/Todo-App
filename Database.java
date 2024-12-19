@@ -74,18 +74,4 @@ public class Database {
         }
     }
 
-    // Check if a task already exists in the database
-    public boolean taskExists(String task) {
-        String selectQuery = "SELECT 1 FROM tasks WHERE task = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(selectQuery)) {
-            pstmt.setString(1, task);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
