@@ -52,9 +52,9 @@ public class Database {
     public void deleteTask(String task) {
         String deleteQuery = "DELETE FROM tasks WHERE task = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(deleteQuery)) {
-            pstmt.setString(1, task);
-            pstmt.executeUpdate();
+             PreparedStatement abc = conn.prepareStatement(deleteQuery)) {
+            abc.setString(1, task);
+            abc.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
