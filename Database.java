@@ -1,3 +1,5 @@
+package TodoApp;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -5,13 +7,21 @@ public class Database {
     private static final String DB_URL = "jdbc:sqlite:todo.db";
 
     public Database() {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement()) {
-            String createTableQuery = "CREATE TABLE IF NOT EXISTS tasks ("
-                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + "task TEXT NOT NULL,"
-                    + "due_date TEXT NOT NULL)";
-            stmt.execute(createTableQuery);
+        try {
+            // Load the SQLite JDBC driver
+            Class.forName("org.sqlite.JDBC");
+
+            try (Connection conn = DriverManager.getConnection(DB_URL);
+                 Statement stmt = conn.createStatement()) {
+                String createTableQuery = "CREATE TABLE IF NOT EXISTS tasks ("
+                        + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + "task TEXT NOT NULL,"
+                        + "due_date TEXT NOT NULL)";
+                stmt.execute(createTableQuery);
+            }
+        } catch (ClassNotFoundException e) {
+            System.err.println("SQLite JDBC driver not found.");
+            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,5 +83,4 @@ public class Database {
             e.printStackTrace();
         }
     }
-
 }

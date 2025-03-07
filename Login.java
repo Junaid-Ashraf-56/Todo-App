@@ -1,3 +1,6 @@
+package TodoApp;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
@@ -5,7 +8,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-class Login {
+
+public class Login {
     private final JFrame frame;
 
     public Login() {
@@ -78,7 +82,7 @@ class Login {
         // Add action listener to the sign-up button
         signUpButton.addActionListener(e -> {
             frame.dispose();
-            SwingUtilities.invokeLater(SignUp::new);
+            SwingUtilities.invokeLater(() -> new SignUp());
         });
 
         // Add the panel to the frame
