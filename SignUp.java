@@ -5,9 +5,12 @@ import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SignUp {
     private final JFrame frame;
+    private static final String DB_URL = "jdbc:sqlite:todo.db";
 
     public SignUp() {
         // Create a frame
@@ -77,10 +80,13 @@ public class SignUp {
 
         // Set the frame to be visible
         frame.setVisible(true);
+
+        // Create the users table if it does not exist
+        createUsersTable();
     }
 
     private boolean registerUser(String username, String email, String password) {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db")) {
+        try (Connection conn = DriverManager.getConnection(DB_URL)) {
             String query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, username);
@@ -92,6 +98,20 @@ public class SignUp {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Database error: " + e.getMessage());
             return false;
+        }
+    }
+
+    private void createUsersTable() {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS users ("
+                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "username TEXT NOT NULL,"
+                    + "email TEXT NOT NULL,"
+                    + "password TEXT NOT NULL)";
+            stmt.execute(createTableQuery);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Database error: " + e.getMessage());
         }
     }
 }

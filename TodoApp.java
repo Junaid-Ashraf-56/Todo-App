@@ -19,9 +19,10 @@ public class TodoApp {
 
         // Initialize the JFrame
         frame = new JFrame("To-Do List Application");
-        frame.setSize(600, 400);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.setLocationRelativeTo(null);
 
         // Set application icon
         ImageIcon image = new ImageIcon("logo.png");

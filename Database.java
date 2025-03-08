@@ -13,11 +13,20 @@ public class Database {
 
             try (Connection conn = DriverManager.getConnection(DB_URL);
                  Statement stmt = conn.createStatement()) {
-                String createTableQuery = "CREATE TABLE IF NOT EXISTS tasks ("
+                // Create the tasks table if it does not exist
+                String createTasksTableQuery = "CREATE TABLE IF NOT EXISTS tasks ("
                         + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                         + "task TEXT NOT NULL,"
                         + "due_date TEXT NOT NULL)";
-                stmt.execute(createTableQuery);
+                stmt.execute(createTasksTableQuery);
+
+                // Create the users table if it does not exist
+                String createUsersTableQuery = "CREATE TABLE IF NOT EXISTS users ("
+                        + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + "username TEXT NOT NULL,"
+                        + "email TEXT NOT NULL,"
+                        + "password TEXT NOT NULL)";
+                stmt.execute(createUsersTableQuery);
             }
         } catch (ClassNotFoundException e) {
             System.err.println("SQLite JDBC driver not found.");
@@ -62,9 +71,9 @@ public class Database {
     public void deleteTask(String task) {
         String deleteQuery = "DELETE FROM tasks WHERE task = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement abc = conn.prepareStatement(deleteQuery)) {
-            abc.setString(1, task);
-            abc.executeUpdate();
+             PreparedStatement pstmt = conn.prepareStatement(deleteQuery)) {
+            pstmt.setString(1, task);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
